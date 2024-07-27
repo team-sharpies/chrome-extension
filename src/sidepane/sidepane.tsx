@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import useSummary from '../api/usePost'
@@ -6,22 +6,44 @@ import useSummary from '../api/usePost'
 const Sidepane: React.FC = () => {
   const [summary, setSummary] = useState<string>('')
   const [quizModeOn, setQuizModeOn] = useState(false)
-  const { mutate, isError, error } = useSummary() // Ensure `useSummary` is returning `mutate`
+  const { mutate, isError, error } = useSummary()
+
+  const [selectedText, setSelectedText] = useState<string>('')
+  const [isTextSet, setIsTextSet] = useState(false)
 
   const toggleQuizMode = () => {
     setQuizModeOn((prevMode) => !prevMode)
   }
 
   const handleClick = () => {
-    const postData = {
-      prompt: 'Who won the super bowl in 2024?',
-    }
-    mutate(postData, {
+    mutate(selectedText, {
       onSuccess: (data) => {
         setSummary(data)
       },
     })
   }
+
+  useEffect(() => {
+    const handleMessage = (message: { action: string; text?: string }) => {
+      if (message.action === 'displaySelection' && message.text) {
+        setSelectedText(message.text)
+        setIsTextSet(true)
+      }
+    }
+
+    chrome.runtime.onMessage.addListener(handleMessage)
+
+    return () => {
+      chrome.runtime.onMessage.removeListener(handleMessage)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isTextSet) {
+      handleClick()
+      setIsTextSet(false)
+    }
+  }, [isTextSet])
 
   return (
     <div className="sidepane bg-background p-2 w-screen h-screen font-sans">

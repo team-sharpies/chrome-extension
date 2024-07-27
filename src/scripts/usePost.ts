@@ -10,9 +10,6 @@ export default function useSummary() {
           method: 'POST',
           // below is the data to be sent to BE
           body: JSON.stringify({ data }),
-          // headers: {
-          //   'Content-Type': 'application/json',
-          // },
         })
         // below is the response from AI
         const summary = await response.json()

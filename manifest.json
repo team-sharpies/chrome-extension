@@ -15,5 +15,10 @@
   ],
   "background": {
     "service_worker": "src/scripts/background.js"
+  },
+  "icons": {
+    "16": "public/sparkle-16.png",
+    "48": "public/sparkle-48.png",
+    "128": "public/sparkle-128.png"
   }
 }
