@@ -191,7 +191,7 @@ const Sidepane: React.FC = () => {
           checked={quizModeOn}
         />
         <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-cyan"></div>
-        <span className="ms-3 text-sm font-medium text-black">Quiz me 💡</span>
+        <span className="ms-3 text-md font-medium text-black">Quiz me 💡</span>
       </label>
 
       {quizModeOn ? (
@@ -237,15 +237,16 @@ const Sidepane: React.FC = () => {
               relatedTopics &&
               (relatedTopics.length > 0 ? (
                 <>
-                  <h2 className="text-[18px] font-bold pb-2">
-                    ✨ Related Topics:
+                  <h2 className="text-[20px] font-bold pb-2">
+                    <span style={{ fontSize: '1.5em' }}>✨</span> Related
+                    Topics:
                   </h2>
 
                   {relatedTopics.map((topic, i) => (
                     <>
                       <li
                         key={i}
-                        className="border-none p-2 m-[5px] bg-cyan rounded-md text-white hover:cursor-pointer inline-flex"
+                        className="border-none p-[5px] m-[2px] bg-cyan rounded-md text-white hover:cursor-pointer inline-flex"
                       >
                         {topic}
                       </li>

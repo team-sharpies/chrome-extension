@@ -4,7 +4,7 @@ export default {
     extend: {
       colors: {
         cyan: '#0ea5e9',
-        background: '#ececec',
+        background: '#bcbcbc',
       },
       fontFamily: {
         sans: ['Roboto', 'sans-serif'],
