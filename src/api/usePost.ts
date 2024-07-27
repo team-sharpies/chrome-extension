@@ -4,22 +4,19 @@ interface PostData {
   prompt: string
 }
 
-export default function useSummary() {
+export default function useSummary(endpointUrl: string) {
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async (data: PostData): Promise<string> => {
       try {
-        const response = await fetch(
-          'https://fg5mcr3m-3000.usw3.devtunnels.ms/api/v1/llm/ask/',
-          {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
+        const response = await fetch(endpointUrl, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
           },
-        )
+        })
 
         if (!response.ok) {
           throw new Error('Network response was not ok')
