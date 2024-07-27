@@ -5,17 +5,24 @@ const Sidepane: React.FC = () => {
   const questions = [
     {
       id: 1,
-      title: 'Question 1',
-      description: 'This is the first question',
+      text: 'Which of the following is a key advantage of using SIMD instructions in applications such as multimedia processing or scientific computing?',
     },
     {
       id: 2,
-      title: 'Question 2',
-      description: 'This is the second question',
+      text: 'What is the main difference between SSE and AVX instruction sets in the x86 architecture?',
+    },
+    {
+      id: 3,
+      text: 'Which SIMD instruction set is specific to the x86 architecture for enhancing multimedia performance?',
+    },
+    {
+      id: 4,
+      text: 'What is the primary purpose of SIMD in the context of the x86 instruction set?',
     },
   ]
+
   return (
-    <div className="bg-neutral-800">
+    <div className="bg-neutral-800 text-lg">
       <div>
         <div className="grid-col-1 grid gap-2.5 [&amp;_>_*]:min-w-0">
           <p className="whitespace-pre-wrap break-words">
@@ -223,13 +230,9 @@ const Sidepane: React.FC = () => {
           </p>
         </div>
       </div>
-      <div className="list-none">
+      <div className="flex flex-col gap-4">
         {questions.map((question) => (
-          <div key={question.id}>
-            <a href="#" className="text-blue-500">
-              {question.title}
-            </a>
-          </div>
+          <p className="text-blue-500 underline">{question.text}</p>
         ))}
       </div>
     </div>
