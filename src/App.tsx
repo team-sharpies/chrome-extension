@@ -1,7 +1,11 @@
 import { HtmlHTMLAttributes, useState } from 'react'
-
+import { fetchStream } from './api'
 
 function App() {
+  const data = fetchStream()
+
+  console.log(data)
+
   const [labelValues, setLabelValues] = useState<
     { label: string; value: string }[]
   >([])
@@ -126,7 +130,6 @@ function App() {
           </div>
           <div className="flex flex-col">
             <label className="text-zinc-50">Immigration Status</label>
-
           </div>
           <div className="flex flex-col">
             <label className="text-zinc-50">Date of Referral</label>
