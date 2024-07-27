@@ -125,7 +125,6 @@ const Sidepane: React.FC = () => {
           </p>
         </div>
       )}
-      <p>{summary}</p>
       <ul>
         {topicsArr &&
           (topicsArr.length > 0 ? (
@@ -133,7 +132,12 @@ const Sidepane: React.FC = () => {
               <h1>✨ Related Topics:</h1>
 
               {topicsArr.map((topic, i) => (
-                <li key={i}>{topic}</li>
+                <li
+                  key={i}
+                  className="border-none p-2 m-3 bg-cyan rounded-md text-white"
+                >
+                  {topic}
+                </li>
               ))}
             </>
           ) : (
