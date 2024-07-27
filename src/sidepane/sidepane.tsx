@@ -74,6 +74,7 @@ const Sidepane: React.FC = () => {
   >(quizData.map(() => ({ selected: '', correct: false })))
   const [summary, setSummary] = useState<string>('')
   const [quizModeOn, setQuizModeOn] = useState(false)
+  const [isStreamingDone, setIsStreamingDone] = useState<boolean | null>(false)
 
   const [selectedText, setSelectedText] = useState<string>('')
 
@@ -96,8 +97,6 @@ const Sidepane: React.FC = () => {
   useEffect(() => {
     const handleMessage = (message: { action: string; text?: string }) => {
       if (message.action === 'displaySelection' && message.text) {
-        console.log(message.text);
-
         setSelectedText(message.text)
       }
     }
@@ -114,7 +113,6 @@ const Sidepane: React.FC = () => {
       return
     }
 
-    console.log('fetching data');
 
 
     // getting response from server based on the user prompt
@@ -144,8 +142,8 @@ const Sidepane: React.FC = () => {
         // Here we start reading the stream, until its done.
         const { value, done } = await reader.read();
 
-        console.log(value);
         if (done) {
+          setIsStreamingDone(true);
           break;
         }
         const decodedChunk = decoder.decode(value, { stream: true });
@@ -171,8 +169,7 @@ const Sidepane: React.FC = () => {
                 }
                 return []
               }).map((choice) => choice.delta.content)
-            console.log(answer + ' ' + output);
-            return answer + ' ' + output
+            return answer + output.join(' ')
           })
         } catch (error) {
           continue
@@ -181,6 +178,8 @@ const Sidepane: React.FC = () => {
     }
     fetchData();
   }, [selectedText])
+
+
 
   return (
     <div className="sidepane bg-background p-2 w-screen min-h-screen font-sans">
@@ -198,18 +197,8 @@ const Sidepane: React.FC = () => {
       {quizModeOn ? (
         <div>
           <h1 className="text-2xl font-bold">Quiz Mode</h1>
-          <button
-            className="border-2 border-solid border-cyan p-2 bg-cyan rounded-md text-white"
-            onClick={handleClick}
-          >
-            Get response
-          </button>
-          {isError && (
-            <div>
-              Error:{' '}
-              {error instanceof Error ? error.message : 'An error occurred'}
-            </div>
-          )}
+
+
 
           {quizData.map((question, questionIdx) => (
             <div
@@ -243,14 +232,16 @@ const Sidepane: React.FC = () => {
             {summary}
           </p>
           <ul className="flex-col">
-            {topicsArr &&
-              (topicsArr.length > 0 ? (
+            {
+              isStreamingDone &&
+              relatedTopics &&
+              (relatedTopics.length > 0 ? (
                 <>
                   <h2 className="text-[18px] font-bold pb-2">
                     ✨ Related Topics:
                   </h2>
 
-                  {topicsArr.map((topic, i) => (
+                  {relatedTopics.map((topic, i) => (
                     <>
                       <li
                         key={i}
