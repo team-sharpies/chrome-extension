@@ -3,7 +3,8 @@ chrome.contextMenus.onClicked.addListener(genericOnClick)
 
 // A generic onclick callback function.
 function genericOnClick(info, tab) {
-  console.log({ info })
+  console.log({ info: info.selectionText })
+
   switch (info.menuItemId) {
     case 'radio':
       // Radio item function

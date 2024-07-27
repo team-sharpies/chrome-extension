@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import useSummary from '../api/usePost'
@@ -18,9 +18,28 @@ const Sidepane: React.FC = () => {
     })
   }
 
+  const [selectedText, setSelectedText] = useState<string>('')
+
+  useEffect(() => {
+    const handleMessage = (message: { action: string; text?: string }) => {
+      if (message.action === 'displaySelection' && message.text) {
+        console.log(message.text)
+
+        setSelectedText(message.text)
+      }
+    }
+
+    chrome.runtime.onMessage.addListener(handleMessage)
+
+    return () => {
+      chrome.runtime.onMessage.removeListener(handleMessage)
+    }
+  }, [])
+
   return (
     <div className="sidepane">
       <h1>Streaming Response</h1>
+      <p>{selectedText ?? ''}</p>
       <button onClick={handleClick}>Get response</button>
       {isError && (
         <div>
