@@ -20,7 +20,7 @@ export default function useSummary() {
         const response = await fetch(
           'https://fwgnbjwq-3000.usw3.devtunnels.ms/api/v1/llm/ask',
           {
-            method: 'GET',
+            method: 'POST',
             // below is the data to be sent to BE
             body: JSON.stringify(data),
             headers: {
@@ -36,8 +36,8 @@ export default function useSummary() {
 
         // below is the response from AI
         const summary = await response.json()
-        console.log(summary)
-        return summary
+        //console.log(summary)
+        return summary as string
       } catch (error) {
         console.log(error)
       }
