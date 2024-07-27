@@ -6,32 +6,59 @@ import getTopics from '../api/getTopics'
 
 const quizData = [
   {
-    question: 'What is the capital of the fictional country of Westeros?',
-    choices: ["King's Landing", 'Winterfell', 'Rivendell', 'Hogsmeade'],
-    answer: "King's Landing",
+    question:
+      'What type of neural network is commonly used for natural language processing and speech recognition?',
+    choices: [
+      'Feedforward Neural Network',
+      'Convolutional Neural Network',
+      'Recurrent Neural Network',
+      'Generative Adversarial Network',
+    ],
+    answer: 'Recurrent Neural Network',
   },
   {
     question:
-      'In the fictional universe of Star Trek, what is the name of the starship captained by Jean-Luc Picard?',
-    choices: ['USS Voyager', 'USS Enterprise', 'USS Defiant', 'USS Discovery'],
-    answer: 'USS Enterprise',
+      'Which neural network type is most often utilized for classification and computer vision tasks?',
+    choices: [
+      'Recurrent Neural Network',
+      'Convolutional Neural Network',
+      'Feedforward Neural Network',
+      'Radial Basis Function Network',
+    ],
+    answer: 'Convolutional Neural Network',
   },
   {
     question:
-      "Which fictional language is spoken by the elves in J.R.R. Tolkien's Middle-earth?",
-    choices: ['Klingon', 'Dothraki', 'Elvish', 'Valyrian'],
-    answer: 'Elvish',
+      'What was commonly used to identify objects in images before the advent of convolutional neural networks?',
+    choices: [
+      'Deep Learning Algorithms',
+      'Manual Feature Extraction Methods',
+      'Support Vector Machines',
+      'Neural Networks',
+    ],
+    answer: 'Manual Feature Extraction Methods',
   },
   {
     question:
-      'What is the name of the wizarding school attended by Harry Potter?',
-    choices: ['Durmstrang', 'Beauxbatons', 'Hogwarts', 'Ilvermorny'],
-    answer: 'Hogwarts',
+      'What mathematical principles do convolutional neural networks leverage to identify patterns within an image?',
+    choices: [
+      'Calculus',
+      'Linear Algebra',
+      'Probability Theory',
+      'Differential Equations',
+    ],
+    answer: 'Linear Algebra',
   },
   {
-    question: "In the Star Wars universe, what is the name of Han Solo's ship?",
-    choices: ['Millennium Falcon', 'X-Wing', 'Star Destroyer', 'TIE Fighter'],
-    answer: 'Millennium Falcon',
+    question:
+      'Why are graphical processing units (GPUs) often required to train convolutional neural networks?',
+    choices: [
+      'They are easier to program',
+      'They consume less power',
+      'They can handle computational demands',
+      'They are cheaper than CPUs',
+    ],
+    answer: 'They can handle computational demands',
   },
 ]
 
