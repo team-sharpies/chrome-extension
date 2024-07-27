@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Get it?",
+  "name": "Get it AI assistant",
   "version": "1.0",
   "description": "Empowering learners to take control of their learning by providing them with the tools to create their own learning path.",
   "side_panel": {
