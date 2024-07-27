@@ -9,6 +9,13 @@ export default defineConfig({
     // @ts-ignore
     crx({ manifest }),
   ],
+  server: {
+    port: 5174,
+    strictPort: true,
+    hmr: {
+      port: 5174,
+    },
+  },
   build: {
     rollupOptions: {
       input: {
