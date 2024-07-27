@@ -73,9 +73,18 @@ const Sidepane: React.FC = () => {
               {error instanceof Error ? error.message : 'An error occurred'}
             </div>
           )}
-          <p className="text-md p-[6px] py-2 my-2 border-solid rounded-md border-gray-500 border-[1px]">
-            {summary}
-          </p>
+          <div className="text-md p-[6px] py-2 my-2 border-solid rounded-md border-gray-500 border-[1px]">
+            <h2>Q:</h2>
+            <p className="text-md p-[6px] py-2 my-2">{summary}</p>
+          </div>
+          <div className="text-md p-[6px] py-2 my-2 border-solid rounded-md border-gray-500 border-[1px]">
+            <h2>Q:</h2>
+            <p className="text-md p-[6px] py-2 my-2">{summary}</p>
+          </div>
+          <div className="text-md p-[6px] py-2 my-2 border-solid rounded-md border-gray-500 border-[1px]">
+            <h2>Q:</h2>
+            <p className="text-md p-[6px] py-2 my-2">{summary}</p>
+          </div>
         </div>
       ) : (
         <div>
