@@ -183,8 +183,8 @@ const Sidepane: React.FC = () => {
               {answers[questionIdx].selected && (
                 <div className="answer-feedback">
                   {answers[questionIdx].correct
-                    ? 'Yes'
-                    : `No - it was ${question.answer}`}
+                    ? '✅ Correct!'
+                    : `❌ Incorrect - the answer is ${question.answer}`}
                 </div>
               )}
             </div>
