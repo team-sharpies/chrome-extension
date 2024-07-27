@@ -18,7 +18,7 @@ export default function useSummary() {
     mutationFn: async (data: PostData) => {
       try {
         const response = await fetch(
-          `https://fwgnbjwq-3000.usw3.devtunnels.ms/api/v1/llm/ask`,
+          'https://fwgnbjwq-3000.usw3.devtunnels.ms/api/v1/llm/ask',
           {
             method: 'POST',
             // below is the data to be sent to BE
@@ -28,14 +28,16 @@ export default function useSummary() {
             },
           },
         )
+
+        console.log(response)
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
 
         // below is the response from AI
         const summary = await response.json()
-        console.log(summary)
-        return summary
+        //console.log(summary)
+        return summary as string
       } catch (error) {
         console.log(error)
       }
