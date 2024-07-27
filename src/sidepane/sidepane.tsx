@@ -4,18 +4,88 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import useSummary from '../api/usePost'
 
 const endpointUrl = 'http://localhost:3000/api/v1/llm/stream'
+import getTopics from '../api/getTopics'
+
+const quizData = [
+  {
+    question:
+      'What type of neural network is commonly used for natural language processing and speech recognition?',
+    choices: [
+      'Feedforward Neural Network',
+      'Convolutional Neural Network',
+      'Recurrent Neural Network',
+      'Generative Adversarial Network',
+    ],
+    answer: 'Recurrent Neural Network',
+  },
+  {
+    question:
+      'Which neural network type is most often utilized for classification and computer vision tasks?',
+    choices: [
+      'Recurrent Neural Network',
+      'Convolutional Neural Network',
+      'Feedforward Neural Network',
+      'Radial Basis Function Network',
+    ],
+    answer: 'Convolutional Neural Network',
+  },
+  {
+    question:
+      'What was commonly used to identify objects in images before the advent of convolutional neural networks?',
+    choices: [
+      'Deep Learning Algorithms',
+      'Manual Feature Extraction Methods',
+      'Support Vector Machines',
+      'Neural Networks',
+    ],
+    answer: 'Manual Feature Extraction Methods',
+  },
+  {
+    question:
+      'What mathematical principles do convolutional neural networks leverage to identify patterns within an image?',
+    choices: [
+      'Calculus',
+      'Linear Algebra',
+      'Probability Theory',
+      'Differential Equations',
+    ],
+    answer: 'Linear Algebra',
+  },
+  {
+    question:
+      'Why are graphical processing units (GPUs) often required to train convolutional neural networks?',
+    choices: [
+      'They are easier to program',
+      'They consume less power',
+      'They can handle computational demands',
+      'They are cheaper than CPUs',
+    ],
+    answer: 'They can handle computational demands',
+  },
+]
 
 const Sidepane: React.FC = () => {
-  const [output, setOutput] = useState<string>('')
-  const [input, setInput] = useState<string>('')
-  const { mutate, isError, error } = useSummary(endpointUrl) // Ensure `useSummary` is returning `mutate`
+  const [summary, setSummary] = useState<string>('')
+  const { mutate, isError, error } = useSummary() // Ensure `useSummary` is returning `mutate`
+
+  const handleClick = () => {
+    const postData = {
+      prompt: 'Who won the super bowl in 2024?',
+    }
+    mutate(postData, {
+      onSuccess: (data) => {
+        setSummary(data)
+      },
+    })
+  }
+
+  const [selectedText, setSelectedText] = useState<string>('')
 
   useEffect(() => {
     const handleMessage = (message: { action: string; text?: string }) => {
       if (message.action === 'displaySelection' && message.text) {
-        console.log(message.text)
-
         setInput(message.text)
+        setIsTextSet(true)
       }
     }
 
@@ -119,17 +189,88 @@ const Sidepane: React.FC = () => {
     })
   }
 
+  useEffect(() => {
+    if (isTextSet) {
+      handleClick()
+      setIsTextSet(false)
+    }
+  }, [isTextSet])
+
   return (
-    <div className="sidepane">
-      <h1>Streaming Response</h1>
-      <p>{input}</p>
-      <button onClick={handleClick}>Get response</button>
-      {isError && (
+    <div className="sidepane bg-background p-2 w-screen h-screen font-sans">
+      <label className="inline-flex items-center cursor-pointer">
+        <input
+          type="checkbox"
+          className="sr-only peer"
+          onChange={toggleQuizMode}
+          checked={quizModeOn}
+        />
+        <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-cyan"></div>
+        <span className="ms-3 text-sm font-medium text-black">Quiz Mode</span>
+      </label>
+
+      {quizModeOn ? (
         <div>
-          Error: {error instanceof Error ? error.message : 'An error occurred'}
+          <h1 className="text-2xl font-bold">Quiz Mode</h1>
+          <button
+            className="border-2 border-solid border-cyan p-2 bg-cyan rounded-md text-white"
+            onClick={handleClick}
+          >
+            Get response
+          </button>
+          {isError && (
+            <div>
+              Error:{' '}
+              {error instanceof Error ? error.message : 'An error occurred'}
+            </div>
+          )}
+
+          {quizData.map((question, questionIdx) => (
+            <div
+              key={questionIdx}
+              className="text-md p-[6px] py-2 my-2 border-solid rounded-md border-gray-500 border-[1px]"
+            >
+              <h2>{question.question}</h2>
+              {question.choices.map((choice, choiceIdx) => (
+                <button
+                  key={choiceIdx}
+                  onClick={() => handleChoice(choice, questionIdx)}
+                  className="border-2 border-solid border-cyan p-[2px] m-2 bg-cyan rounded-md text-white"
+                >
+                  {choice}
+                </button>
+              ))}
+              {answers[questionIdx].selected && (
+                <div className="answer-feedback">
+                  {answers[questionIdx].correct
+                    ? 'Yes'
+                    : `No - it was ${question.answer}`}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div>
+          <h1 className="text-2xl font-bold">Summary</h1>
+          <button
+            className="border-2 border-solid border-cyan p-2 bg-cyan rounded-md text-white"
+            onClick={handleClick}
+          >
+            Get response
+          </button>
+          {isError && (
+            <div>
+              Error:{' '}
+              {error instanceof Error ? error.message : 'An error occurred'}
+            </div>
+          )}
+          <p className="text-md p-[6px] py-2 my-2 border-solid rounded-md border-gray-500 border-[1px]">
+            {summary}
+          </p>
         </div>
       )}
-      <p>{output}</p>
+      <p>{summary}</p>
     </div>
   )
 
