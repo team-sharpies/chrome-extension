@@ -6,11 +6,14 @@
   "side_panel": {
     "default_path": "sidepane.html"
   },
-  "permissions": ["sidePanel"],
+  "permissions": ["sidePanel", "contextMenus"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
       "js": ["src/scripts/content.js"]
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "src/scripts/background.js"
+  }
 }
