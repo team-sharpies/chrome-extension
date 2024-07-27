@@ -1,10 +1,24 @@
 import { HtmlHTMLAttributes, useState } from 'react'
-
+import useSummary from './api/usePost'
+import { fetchStream } from './api'
 
 function App() {
+  const data = fetchStream()
+
+  console.log(data)
+
   const [labelValues, setLabelValues] = useState<
     { label: string; value: string }[]
   >([])
+
+  const { mutate } = useSummary()
+
+  const handleClick = () => {
+    const postData = {
+      prompt: 'Who won the super bowl in 2024?',
+    }
+    mutate(postData)
+  }
 
   function submitReferral(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -57,6 +71,7 @@ function App() {
 
   return (
     <div className="space-y-4 p-4">
+      <button onClick={handleClick}>CLICK MEEE</button>
       <div className="grid grid-cols-2 gap-2">
         <form className="space-y-2">
           <Button>Create Address</Button>
@@ -126,7 +141,6 @@ function App() {
           </div>
           <div className="flex flex-col">
             <label className="text-zinc-50">Immigration Status</label>
-
           </div>
           <div className="flex flex-col">
             <label className="text-zinc-50">Date of Referral</label>

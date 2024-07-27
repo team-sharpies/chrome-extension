@@ -1,7 +1,8 @@
 // frontend.js
-async function fetchStream() {
+export async function fetchStream() {
+  console.log('Starting fetchStream...') // Log at the start
   try {
-    const response = await fetch('/stream')
+    const response = await mockFetch('/stream')
 
     if (!response.body) {
       throw new Error('Response body is null')
@@ -28,4 +29,33 @@ async function fetchStream() {
   } catch (error) {
     console.error('Error:', error)
   }
+}
+
+// Mocked stream to test our API
+async function mockFetch(url) {
+  console.log(`Fetching from: ${url}`) // Log to ensure mockFetch is called
+
+  const mockResponse = {
+    body: {
+      getReader() {
+        let count = 0
+        return {
+          async read() {
+            console.log('Reading chunk', count) // Log to trace reader activity
+            if (count < 5) {
+              count++
+              return {
+                done: false,
+                value: new TextEncoder().encode(`Mock message ${count}`),
+              }
+            } else {
+              return { done: true, value: null }
+            }
+          },
+        }
+      },
+    },
+  }
+
+  return mockResponse
 }
