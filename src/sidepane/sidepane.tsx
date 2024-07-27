@@ -152,12 +152,6 @@ const Sidepane: React.FC = () => {
       {quizModeOn ? (
         <div>
           <h1 className="text-2xl font-bold">Quiz Mode</h1>
-          <button
-            className="border-2 border-solid border-cyan p-2 bg-cyan rounded-md text-white"
-            onClick={handleClick}
-          >
-            Get response
-          </button>
           {isError && (
             <div>
               Error:{' '}
