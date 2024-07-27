@@ -5,7 +5,7 @@ import useSummary from '../api/usePost'
 
 const Sidepane: React.FC = () => {
   const [summary, setSummary] = useState<string>('')
-  const { mutate, isError, error } = useSummary()
+  const { mutate, isError, error } = useSummary() // Ensure `useSummary` is returning `mutate`
 
   const handleClick = () => {
     const postData = {
