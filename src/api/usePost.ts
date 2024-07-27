@@ -17,7 +17,7 @@ export default function useSummary(endpointUrl: string) {
         }
 
         const response = await fetch(
-          'https://c436kvwp-3000.aue.devtunnels.ms/api/v1/llm/ask/',
+          endpointUrl,
           {
             method: 'POST',
             body: JSON.stringify(prompt),
