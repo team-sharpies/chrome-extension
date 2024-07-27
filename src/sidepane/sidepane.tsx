@@ -4,36 +4,30 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import useSummary from '../api/usePost'
 
 const Sidepane: React.FC = () => {
-  const [responseData, setResponseData] = useState<string | null>(null)
-  const { mutate, isError } = useSummary()
+  const [summary, setSummary] = useState<string>('')
+  const { mutate, isError, error } = useSummary()
 
   const handleClick = () => {
     const postData = {
-      prompt: 'Who won the Super Bowl in 2024?',
+      prompt: 'Who won the super bowl in 2024?',
     }
     mutate(postData, {
       onSuccess: (data) => {
-        if (data)
-          // Assuming 'data' contains the response from the server
-          setResponseData(data) // Adjust based on actual response structure
-      },
-      onError: (error) => {
-        console.error('Error fetching data:', error)
+        setSummary(data)
       },
     })
   }
 
   return (
     <div className="sidepane">
-      <h1>Response from AI Model</h1>
-      <button onClick={handleClick}>Click me</button>
-      {isError && <div>Error occurred while fetching data.</div>}
-      {responseData && (
+      <h1>Streaming Response</h1>
+      <button onClick={handleClick}>Get response</button>
+      {isError && (
         <div>
-          <h2>Response Summary:</h2>
-          <p>{responseData}</p>
+          Error: {error instanceof Error ? error.message : 'An error occurred'}
         </div>
       )}
+      <p>{summary}</p>
     </div>
   )
 }
