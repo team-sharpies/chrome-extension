@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import useSummary from '../api/usePost'
+import getTopics from '../api/getTopics'
 
 const quizData = [
   {
@@ -39,8 +40,10 @@ const Sidepane: React.FC = () => {
     { selected: string; correct: boolean }[]
   >(quizData.map(() => ({ selected: '', correct: false })))
   const [summary, setSummary] = useState<string>('')
+  const [topicsArr, setTopicsArr] = useState<string[] | null>(null)
   const [quizModeOn, setQuizModeOn] = useState(false)
   const { mutate, isError, error } = useSummary()
+  const topics = getTopics()
 
   const [selectedText, setSelectedText] = useState<string>('')
   const [isTextSet, setIsTextSet] = useState(false)
@@ -52,7 +55,23 @@ const Sidepane: React.FC = () => {
   const handleClick = () => {
     mutate(selectedText, {
       onSuccess: (data) => {
-        setSummary(data)
+        setSummary(data), getRelatedTopics()
+      },
+    })
+  }
+
+  const getRelatedTopics = () => {
+    topics.mutate(selectedText, {
+      onSuccess: (data) => {
+        console.log('Data received:', data) // Debug log
+        console.log(data[0])
+
+        if (Array.isArray(data)) {
+          setTopicsArr(data)
+        } else {
+          console.error('Data is not an array:', data) // Debug error
+          console.log(data[0])
+        }
       },
     })
   }
@@ -164,6 +183,25 @@ const Sidepane: React.FC = () => {
           </p>
         </div>
       )}
+      <ul>
+        {topicsArr &&
+          (topicsArr.length > 0 ? (
+            <>
+              <h1>✨ Related Topics:</h1>
+
+              {topicsArr.map((topic, i) => (
+                <li
+                  key={i}
+                  className="border-none p-2 m-3 bg-cyan rounded-md text-white"
+                >
+                  {topic}
+                </li>
+              ))}
+            </>
+          ) : (
+            <li>No topics available</li>
+          ))}
+      </ul>
     </div>
   )
 }

@@ -5,9 +5,11 @@ export default function useSummary() {
 
   return useMutation({
     mutationFn: async (data: string): Promise<string> => {
+      console.log(data)
+
       try {
         const prompt = {
-          prompt: `Summarise the following text. Please do not respond with anything other than the summary. ${data}`,
+          prompt: `Summarise the text below and give three related topics/concepts. Please do not respond with anything other than the summary. ${data}`,
         }
 
         const response = await fetch(
