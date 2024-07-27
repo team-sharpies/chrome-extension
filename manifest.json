@@ -1,27 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "Label Value Extractor",
+  "name": "Get it?",
   "version": "1.0",
-  "description": "Extracts label-value pairs from the current tab",
-  "permissions": ["activeTab", "scripting", "webNavigation", "identity"],
-  "host_permissions": [
-    "https://*.login.microsoftonline.com/*",
-    "https://*.graph.microsoft.com/*"
-  ],
-  "action": {
-    "default_popup": "index.html"
+  "description": "Empowering learners to take control of their learning by providing them with the tools to create their own learning path.",
+  "side_panel": {
+    "default_path": "sidepane.html"
   },
-  "background": {
-    "service_worker": "background.js"
-  },
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'"
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
-      "world": "ISOLATED"
-    }
-  ]
+  "permissions": ["sidePanel"]
 }
