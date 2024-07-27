@@ -10,10 +10,10 @@ export default defineConfig({
     crx({ manifest }),
   ],
   server: {
-    port: 5174,
+    port: 5173,
     strictPort: true,
     hmr: {
-      port: 5174,
+      port: 5173,
     },
   },
   build: {
