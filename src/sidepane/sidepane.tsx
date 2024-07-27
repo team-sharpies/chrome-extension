@@ -74,7 +74,7 @@ const Sidepane: React.FC = () => {
             </div>
           )}
           <p className="text-md p-[6px] py-2 my-2 border-solid rounded-md border-gray-500 border-[1px]">
-            Blah blah blah blah blah
+            {summary}
           </p>
         </div>
       ) : (
@@ -93,7 +93,7 @@ const Sidepane: React.FC = () => {
             </div>
           )}
           <p className="text-md p-[6px] py-2 my-2 border-solid rounded-md border-gray-500 border-[1px]">
-            Blah blah blah blah blah
+            {summary}
           </p>
         </div>
       )}
