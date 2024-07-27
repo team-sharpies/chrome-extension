@@ -7,25 +7,34 @@ const Sidepane: React.FC = () => {
   const [summary, setSummary] = useState<string>('')
   const { mutate, isError, error } = useSummary() // Ensure `useSummary` is returning `mutate`
 
+  const [selectedText, setSelectedText] = useState<string>('')
+  const [isTextSet, setIsTextSet] = useState(false)
+
   const handleClick = () => {
-    const postData = {
-      prompt: 'Who won the super bowl in 2024?',
-    }
-    mutate(postData, {
+    mutate(selectedText, {
       onSuccess: (data) => {
         setSummary(data)
       },
     })
-  }
 
-  const [selectedText, setSelectedText] = useState<string>('')
+    // const postData = {
+    //   prompt: selectedText,
+    // }
+    // const string = 'Who won the super bowl in 2024?',
+    // mutate(string, {
+    //   onSuccess: (data) => {
+    //     setSummary(data)
+    //   },
+    // })
+  }
 
   useEffect(() => {
     const handleMessage = (message: { action: string; text?: string }) => {
       if (message.action === 'displaySelection' && message.text) {
-        console.log(message.text)
-
+        // console.log(message.text)
+        // handleClick(message.text)
         setSelectedText(message.text)
+        setIsTextSet(true)
       }
     }
 
@@ -36,11 +45,18 @@ const Sidepane: React.FC = () => {
     }
   }, [])
 
+  useEffect(() => {
+    if (isTextSet) {
+      handleClick()
+      setIsTextSet(false)
+    }
+  }, [isTextSet])
+
   return (
     <div className="sidepane">
       <h1>Streaming Response</h1>
       <p>{selectedText ?? ''}</p>
-      <button onClick={handleClick}>Get response</button>
+      {/* <button onClick={handleClick}>Get response</button> */}
       {isError && (
         <div>
           Error: {error instanceof Error ? error.message : 'An error occurred'}
