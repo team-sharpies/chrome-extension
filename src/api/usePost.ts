@@ -4,6 +4,8 @@ interface PostData {
   prompt: string
 }
 
+// Daphs port:   https://fwgnbjwq-3000.usw3.devtunnels.ms/api/v1/llm/ask
+
 export default function useSummary() {
   const queryClient = useQueryClient()
 
@@ -11,7 +13,7 @@ export default function useSummary() {
     mutationFn: async (data: PostData): Promise<string> => {
       try {
         const response = await fetch(
-          'https://fwgnbjwq-3000.usw3.devtunnels.ms/api/v1/llm/ask',
+          'https://fg5mcr3m-3000.usw3.devtunnels.ms/',
           {
             method: 'POST',
             body: JSON.stringify(data),
