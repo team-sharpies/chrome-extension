@@ -4,6 +4,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const endpointUrl = 'http://localhost:3000/api/v1/llm'
 
+const relatedTopics = [
+  'Deep Learning Architectures',
+  'Natural Language Processing (NLP)',
+  'Computer Vision',
+]
+
 const quizData = [
   {
     question:
@@ -177,7 +183,7 @@ const Sidepane: React.FC = () => {
   }, [selectedText])
 
   return (
-    <div className="sidepane bg-background p-2 w-screen h-screen font-sans">
+    <div className="sidepane bg-background p-2 w-screen min-h-screen font-sans">
       <label className="inline-flex items-center cursor-pointer">
         <input
           type="checkbox"
@@ -192,7 +198,18 @@ const Sidepane: React.FC = () => {
       {quizModeOn ? (
         <div>
           <h1 className="text-2xl font-bold">Quiz Mode</h1>
-
+          <button
+            className="border-2 border-solid border-cyan p-2 bg-cyan rounded-md text-white"
+            onClick={handleClick}
+          >
+            Get response
+          </button>
+          {isError && (
+            <div>
+              Error:{' '}
+              {error instanceof Error ? error.message : 'An error occurred'}
+            </div>
+          )}
 
           {quizData.map((question, questionIdx) => (
             <div
@@ -212,8 +229,8 @@ const Sidepane: React.FC = () => {
               {answers[questionIdx].selected && (
                 <div className="answer-feedback">
                   {answers[questionIdx].correct
-                    ? 'Yes'
-                    : `No - it was ${question.answer}`}
+                    ? '✅ Correct!'
+                    : `❌ Incorrect - the answer is ${question.answer}`}
                 </div>
               )}
             </div>
@@ -225,6 +242,30 @@ const Sidepane: React.FC = () => {
           <p className="text-md p-[6px] py-2 my-2 border-solid rounded-md border-gray-500 border-[1px]">
             {summary}
           </p>
+          <ul className="flex-col">
+            {topicsArr &&
+              (topicsArr.length > 0 ? (
+                <>
+                  <h2 className="text-[18px] font-bold pb-2">
+                    ✨ Related Topics:
+                  </h2>
+
+                  {topicsArr.map((topic, i) => (
+                    <>
+                      <li
+                        key={i}
+                        className="border-none p-2 m-[5px] bg-cyan rounded-md text-white hover:cursor-pointer inline-flex"
+                      >
+                        {topic}
+                      </li>
+                      <br />
+                    </>
+                  ))}
+                </>
+              ) : (
+                <li>No topics available</li>
+              ))}
+          </ul>
         </div>
       )}
     </div>
