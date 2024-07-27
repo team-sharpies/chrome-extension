@@ -208,27 +208,32 @@ const Sidepane: React.FC = () => {
           <p className="text-md p-[6px] py-2 my-2 border-solid rounded-md border-gray-500 border-[1px]">
             {summary}
           </p>
+          <ul className="flex-col">
+            {topicsArr &&
+              (topicsArr.length > 0 ? (
+                <>
+                  <h2 className="text-[18px] font-bold pb-2">
+                    ✨ Related Topics:
+                  </h2>
+
+                  {topicsArr.map((topic, i) => (
+                    <>
+                      <li
+                        key={i}
+                        className="border-none p-2 m-[5px] bg-cyan rounded-md text-white hover:cursor-pointer inline-flex"
+                      >
+                        {topic}
+                      </li>
+                      <br />
+                    </>
+                  ))}
+                </>
+              ) : (
+                <li>No topics available</li>
+              ))}
+          </ul>
         </div>
       )}
-      <ul>
-        {topicsArr &&
-          (topicsArr.length > 0 ? (
-            <>
-              <h1>✨ Related Topics:</h1>
-
-              {topicsArr.map((topic, i) => (
-                <li
-                  key={i}
-                  className="border-none p-2 m-3 bg-cyan rounded-md text-white hover:cursor-pointer"
-                >
-                  {topic}
-                </li>
-              ))}
-            </>
-          ) : (
-            <li>No topics available</li>
-          ))}
-      </ul>
     </div>
   )
 }
