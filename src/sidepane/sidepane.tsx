@@ -137,7 +137,7 @@ const Sidepane: React.FC = () => {
   }, [isTextSet])
 
   return (
-    <div className="sidepane bg-background p-2 w-screen h-screen font-sans">
+    <div className="sidepane bg-background p-2 w-screen min-h-screen font-sans">
       <label className="inline-flex items-center cursor-pointer">
         <input
           type="checkbox"
