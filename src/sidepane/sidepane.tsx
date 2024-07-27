@@ -4,6 +4,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import useSummary from '../api/usePost'
 import getTopics from '../api/getTopics'
 
+const relatedTopics = [
+  'Deep Learning Architectures',
+  'Natural Language Processing (NLP)',
+  'Computer Vision',
+]
+
 const quizData = [
   {
     question:
