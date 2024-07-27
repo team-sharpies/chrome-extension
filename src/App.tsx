@@ -1,7 +1,12 @@
 import { HtmlHTMLAttributes, useState } from 'react'
 import useSummary from './api/usePost'
+import { fetchStream } from './api'
 
 function App() {
+  const data = fetchStream()
+
+  console.log(data)
+
   const [labelValues, setLabelValues] = useState<
     { label: string; value: string }[]
   >([])
