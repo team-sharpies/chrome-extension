@@ -1,25 +1,30 @@
-// frontend.js
 export async function fetchStream() {
   console.log('Starting fetchStream...') // Log at the start
   try {
-    const response = await mockFetch('/stream')
+    // TODO: replace this call with the backend's forwarded port
+    const response = await fetch('https://fwgnbjwq-3000.usw3.devtunnels.ms/')
+    console.log(response)
 
     if (!response.body) {
       throw new Error('Response body is null')
     }
 
     const reader = response.body.getReader()
+    const decoder = new TextDecoder()
+    const summaryContent = document.getElementById('summary')
 
     async function processText() {
       const { done, value } = await reader.read()
 
       if (done) {
         console.log('Stream complete')
+        summaryContent.innerHTML += '<p>Stream complete</p>' // Optional: Indicate completion
         return
       }
 
-      // Process the chunk (value) here
-      console.log('Received chunk:', new TextDecoder().decode(value))
+      // Decode and append the chunk to the summaryContent
+      const chunk = decoder.decode(value, { stream: true })
+      summaryContent.innerHTML += `<p>${chunk}</p>`
 
       // Continue reading the next chunk
       await processText()
@@ -28,6 +33,8 @@ export async function fetchStream() {
     await processText()
   } catch (error) {
     console.error('Error:', error)
+    const summaryContent = document.getElementById('summary')
+    summaryContent.innerHTML = '<p>Error occurred while fetching data.</p>' // Optional: Show error message in the DOM
   }
 }
 
@@ -59,3 +66,5 @@ async function mockFetch(url) {
 
   return mockResponse
 }
+
+fetchStream()
