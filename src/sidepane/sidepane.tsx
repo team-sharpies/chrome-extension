@@ -5,7 +5,7 @@ import useSummary from '../api/usePost'
 
 const Sidepane: React.FC = () => {
   const [summary, setSummary] = useState<string>('')
-  const { mutate, isError, error } = useSummary() // Ensure `useSummary` is returning `mutate`
+  const { mutate, isError, error } = useSummary()
 
   const [selectedText, setSelectedText] = useState<string>('')
   const [isTextSet, setIsTextSet] = useState(false)
@@ -16,23 +16,11 @@ const Sidepane: React.FC = () => {
         setSummary(data)
       },
     })
-
-    // const postData = {
-    //   prompt: selectedText,
-    // }
-    // const string = 'Who won the super bowl in 2024?',
-    // mutate(string, {
-    //   onSuccess: (data) => {
-    //     setSummary(data)
-    //   },
-    // })
   }
 
   useEffect(() => {
     const handleMessage = (message: { action: string; text?: string }) => {
       if (message.action === 'displaySelection' && message.text) {
-        // console.log(message.text)
-        // handleClick(message.text)
         setSelectedText(message.text)
         setIsTextSet(true)
       }
@@ -56,7 +44,6 @@ const Sidepane: React.FC = () => {
     <div className="sidepane">
       <h1>Streaming Response</h1>
       <p>{selectedText ?? ''}</p>
-      {/* <button onClick={handleClick}>Get response</button> */}
       {isError && (
         <div>
           Error: {error instanceof Error ? error.message : 'An error occurred'}
