@@ -192,7 +192,7 @@ const Sidepane: React.FC = () => {
               {topicsArr.map((topic, i) => (
                 <li
                   key={i}
-                  className="border-none p-2 m-3 bg-cyan rounded-md text-white"
+                  className="border-none p-2 m-3 bg-cyan rounded-md text-white hover:cursor-pointer"
                 >
                   {topic}
                 </li>
