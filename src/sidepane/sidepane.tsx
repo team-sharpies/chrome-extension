@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-const endpointUrl = 'http://localhost:3000/api/v1/llm'
+const endpointUrl = 'https://c436kvwp-5174.aue.devtunnels.ms/api/v1/llm'
 
 const relatedTopics = [
   'Deep Learning Architectures',
@@ -93,7 +93,6 @@ const Sidepane: React.FC = () => {
     )
   }
 
-
   useEffect(() => {
     const handleMessage = (message: { action: string; text?: string }) => {
       if (message.action === 'displaySelection' && message.text) {
@@ -113,44 +112,41 @@ const Sidepane: React.FC = () => {
       return
     }
 
-
-
     // getting response from server based on the user prompt
     const fetchData = async () => {
-
       const response = await fetch(endpointUrl + '/stream', {
-        method: "post",
+        method: 'post',
         headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ prompt: selectedText }),
-      });
+      })
       if (!response.ok || !response.body) {
-        console.error('Error fetching data');
-        console.log(await response.text());
+        console.error('Error fetching data')
+        console.log(await response.text())
         return
       }
 
       // Here we start prepping for the streaming response
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      const loopRunner = true;
-
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+      const loopRunner = true
 
       while (loopRunner) {
         // Here we start reading the stream, until its done.
-        const { value, done } = await reader.read();
+        const { value, done } = await reader.read()
 
         if (done) {
-          setIsStreamingDone(true);
-          break;
+          setIsStreamingDone(true)
+          break
         }
-        const decodedChunk = decoder.decode(value, { stream: true });
+        const decodedChunk = decoder.decode(value, { stream: true })
         try {
-
           const lines = decodedChunk.split('\n')
-          const dataLines = lines.filter((line) => line.includes('data:') && !line.includes('DONE')).map((line) => line.replace('data:', ''))
+          const dataLines = lines
+            .filter((line) => line.includes('data:') && !line.includes('DONE'))
+            .map((line) => line.replace('data:', ''))
 
           // now each data line is a json object
           const decodedChunkJsons = dataLines.map((line) => {
@@ -168,7 +164,8 @@ const Sidepane: React.FC = () => {
                   return decodedChunkJson.choices
                 }
                 return []
-              }).map((choice) => choice.delta.content)
+              })
+              .map((choice) => choice.delta.content)
             return answer + output.join(' ')
           })
         } catch (error) {
@@ -176,10 +173,8 @@ const Sidepane: React.FC = () => {
         }
       }
     }
-    fetchData();
+    fetchData()
   }, [selectedText])
-
-
 
   return (
     <div className="sidepane bg-background p-2 w-screen min-h-screen font-sans">
@@ -197,8 +192,6 @@ const Sidepane: React.FC = () => {
       {quizModeOn ? (
         <div>
           <h1 className="text-2xl font-bold">Quiz Mode</h1>
-
-
 
           {quizData.map((question, questionIdx) => (
             <div
@@ -232,8 +225,7 @@ const Sidepane: React.FC = () => {
             {summary}
           </p>
           <ul className="flex-col">
-            {
-              isStreamingDone &&
+            {isStreamingDone &&
               relatedTopics &&
               (relatedTopics.length > 0 ? (
                 <>
@@ -262,7 +254,6 @@ const Sidepane: React.FC = () => {
       )}
     </div>
   )
-
 }
 
 const queryClient = new QueryClient()
